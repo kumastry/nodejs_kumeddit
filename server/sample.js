@@ -1,0 +1,87 @@
+export const topics = [
+    {
+        id:1,
+        topic:"math",   
+    }
+    ,
+    {
+        id:2,
+        topic:"science"
+    }
+]
+
+export const boards = [
+    {
+        id:1,
+        topicId:1,
+        board:"algabra",
+    }
+    ,    
+    {
+        id:2,
+        topicId:1,
+        board:"line",
+    },
+    {
+        id:3,
+        topicId:2,
+        board:"algorithm",
+    },
+    {
+        id:4,
+        topicId:2,
+        board:"pyshics",
+    }
+]
+
+export const comments = [
+    {
+        id:1,
+        topicId:1,
+        boardId:1,
+        comment:"fuck1"
+    },
+    {
+        id:2,
+        topicId:1,
+        boardId:1,
+        comment:"fuck2"
+    },  
+    {
+        id:3,
+        topicId:1,
+        boardId:2,
+        comment:"fuck3"
+    },   
+    {
+        id:4,
+        topicId:1,
+        boardId:2,
+        comment:"fuck4"
+    },   
+    {
+        id:5,
+        topicId:2,
+        boardId:3,
+        comment:"fuck5"
+    },
+    {
+        id:6,
+        topicId:2,
+        boardId:3,
+        comment:"fuck6"
+    },
+    {
+        id:7,
+        topicId:2,
+        boardId:4,
+        comment:"fuck7"
+    },
+    {
+        id:8,
+        topicId:2,
+        boardId:4,
+        comment:"fuck8"
+    },
+]
+
