@@ -5,7 +5,7 @@ export const sequelize = new Sequelize(url);
 const {DataTypes} = Sequelize;
 
 const Topic = sequelize.define('Topic', {
-    name:{
+    title:{
         type: DataTypes.STRING,
         allowNull:false
     },
@@ -31,6 +31,19 @@ const Board = sequelize.define('Board',  {
     }
 });
 
+
+const User = sequelize.define('User', {
+    UserId:{
+        type:DataTypes.UUID,
+        primaryKey:true
+    }
+    ,
+    name:{
+        type:DataTypes.STRING,
+        allowNull:false
+    }
+});
+
 const Comment = sequelize.define('Comment', {
     comment:{
         type:DataTypes.TEXT,
@@ -49,17 +62,20 @@ const Comment = sequelize.define('Comment', {
         references:{
             model:Board
         }
-    }
+    },
+    UserId:{
+        type:DataTypes.UUID,
+        allowNull:false,
+        references: {
+            model:User
+        }
+    } 
 });
 
-/*
-const User = sequlize.define('User', {
-
-});
-*/
 
 Topic.hasMany(Board);
 Board.belongsTo(Topic);
 Board.hasMany(Comment);
 Comment.belongsTo(Board);
-
+User.hasMany(Comment);
+Comment.belongsTo(User);
