@@ -1,10 +1,10 @@
-import Sequelize from "sequelize";
+import {Sequelize, Op} from "sequelize";
 
 const url = 'postgres://postgres:postgres@localhost:5432/kumadit';
 export const sequelize = new Sequelize(url);
 const {DataTypes} = Sequelize;
 
-const Topic = sequelize.define('Topic', {
+const Topics = sequelize.define('Topics', {
     name:{
         type: DataTypes.STRING,
         allowNull:false
@@ -14,8 +14,37 @@ const Topic = sequelize.define('Topic', {
     }
 });
 
+const Boards = sequelize.define('Boards',  {
+    title:{
+        type:DataTypes.TEXT,
+        allowNull:false
+    },
+    topicId:{
+        type:DataTypes.INTEGER,
+        allowNull:false
+    },
+    commentCount:{
+        type:DataTypes.INTEGER
+    }
+});
+
+const Comments = sequelize.define('Comments', {
+    comment:{
+        type:DataTypes.TEXT,
+        allowNull:false
+    },
+    topicId:{
+        type:DataTypes.INTEGER,
+        allowNull:false
+    },
+    BoardId:{
+        type:DataTypes.INTEGER,
+        allowNull:false
+    }
+});
+
 (async() => {
     await sequelize.sync({force:true});
-    const jane = await Topic.create({name:"moko"});
-    console.log(jane instanceof Topic);
+    await Topics.create({name:"ru", boardCount:0});
+    await Topics.create({name:"gu", boardCount:0});
 })();
