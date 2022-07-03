@@ -1,10 +1,10 @@
-import {Sequelize, Op} from "sequelize";
+import {Sequelize, Op, QueryTypes} from "sequelize";
 
 const url = 'postgres://postgres:postgres@localhost:5432/kumadit';
 export const sequelize = new Sequelize(url);
 const {DataTypes} = Sequelize;
 
-const Topics = sequelize.define('Topics', {
+const Topic = sequelize.define('Topic', {
     name:{
         type: DataTypes.STRING,
         allowNull:false
@@ -14,37 +14,52 @@ const Topics = sequelize.define('Topics', {
     }
 });
 
-const Boards = sequelize.define('Boards',  {
+const Board = sequelize.define('Board',  {
     title:{
         type:DataTypes.TEXT,
         allowNull:false
     },
     topicId:{
         type:DataTypes.INTEGER,
-        allowNull:false
+        allowNull:false,
+        references:{
+            mode:Topic
+        }
     },
     commentCount:{
         type:DataTypes.INTEGER
     }
 });
 
-const Comments = sequelize.define('Comments', {
+const Comment = sequelize.define('Comment', {
     comment:{
         type:DataTypes.TEXT,
         allowNull:false
     },
     topicId:{
         type:DataTypes.INTEGER,
-        allowNull:false
+        allowNull:false,
+        references:{
+            model:Topic
+        }
     },
     BoardId:{
         type:DataTypes.INTEGER,
-        allowNull:false
+        allowNull:false,
+        references:{
+            model:Board
+        }
     }
 });
 
-(async() => {
-    await sequelize.sync({force:true});
-    await Topics.create({name:"ru", boardCount:0});
-    await Topics.create({name:"gu", boardCount:0});
-})();
+/*
+const User = sequlize.define('User', {
+
+});
+*/
+
+Topic.hasMany(Board);
+Board.belongsTo(Topic);
+Board.hasMany(Comment);
+Comment.belongsTo(Board);
+
