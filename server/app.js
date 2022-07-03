@@ -1,5 +1,9 @@
 import express from 'express';
 import * as data from './sample.js';
+import {Topic, User, Board, User} from "db/model.js";
+import sequelize from 'sequelize';
+
+
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -17,16 +21,17 @@ app.get('/topics', async (req, res) => {
     
 });
 
-
+//データベースからPK = :topicIdのBoardを抜き出す
 app.get('/topics/:topicId', async( req, res) => {
     const topicId = +req.params.topicId;
-    const topics = data.topics;
-    if(!topics) {
-        res.status(404).send("not founded");
+
+    const topic = await Topic.findByPk(topicId);
+    if(!topic) {
+        res.status("404").send("not founded");
+        return;
     }
-    res.json(
-        topics.find(element => element.id === topicId)
-    );
+
+    res.json(topic);
 });
 
 app.get('/topics/:topicId/boards', async (req, res) => {
@@ -44,13 +49,24 @@ app.get('/topics/:topicId/boards', async (req, res) => {
 app.get('/topics/:topicId/boards/:boardId', async(req, res) => {
     const topicId = +req.params.topicId;
     const boardId = +req.params.boardId;
-    const boards = data.boards;
-    if(!boards) {
+
+    const board = await Board.findOne(
+    {
+        attribute: ['title', 'commentCount']
+    },{
+        where: {
+        [Or.and] : [
+            {BoardId : boardId},
+            {topicId : topicId}
+        ]
+    }});
+
+
+    if(!board) {
         res.status(404).send("not founded");
+        return;
     }
-    res.json(
-        boards.filter(element => element.topicId === topicId && element.id === boardId)
-    );
+    res.json(board);
 });
 
 app.get('/topics/:topicId/boards/:boardId/comments', async(req, res) => {

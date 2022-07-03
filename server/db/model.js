@@ -4,7 +4,7 @@ const url = 'postgres://postgres:postgres@localhost:5432/kumadit';
 export const sequelize = new Sequelize(url);
 const {DataTypes} = Sequelize;
 
-const Topic = sequelize.define('Topic', {
+export const Topic = sequelize.define('Topic', {
     title:{
         type: DataTypes.STRING,
         allowNull:false
@@ -14,14 +14,21 @@ const Topic = sequelize.define('Topic', {
     }
 });
 
-const Board = sequelize.define('Board',  {
+//BoardIdとtopicIdを複合主キー
+export const Board = sequelize.define('Board',  {
     title:{
         type:DataTypes.TEXT,
         allowNull:false
     },
+    BoardId:{
+        Type:DataTypes.INTEGER,
+        allowNull:false,
+        primaryKey: true,
+    },
     topicId:{
         type:DataTypes.INTEGER,
         allowNull:false,
+        primaryKey: true,
         references:{
             mode:Topic
         }
@@ -32,7 +39,7 @@ const Board = sequelize.define('Board',  {
 });
 
 
-const User = sequelize.define('User', {
+export const User = sequelize.define('User', {
     UserId:{
         type:DataTypes.UUID,
         primaryKey:true
@@ -44,7 +51,7 @@ const User = sequelize.define('User', {
     }
 });
 
-const Comment = sequelize.define('Comment', {
+export const Comment = sequelize.define('Comment', {
     comment:{
         type:DataTypes.TEXT,
         allowNull:false
@@ -69,7 +76,13 @@ const Comment = sequelize.define('Comment', {
         references: {
             model:User
         }
-    } 
+    },
+    likes: {
+        type:DataTypes.INTEGER,
+    },
+    dislikes:{
+        type:DataTypes.INTEGER
+    }
 });
 
 
