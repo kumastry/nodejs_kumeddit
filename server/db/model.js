@@ -15,7 +15,11 @@ export const Topic = sequelize.define('Topic', {
     },
     BoardCount:{
         type:DataTypes.INTEGER
-    }
+    },
+    
+} , 
+{
+    freezeTableName: true,
 });
 
 //BoardIdとtopicIdを複合主キー
@@ -27,19 +31,24 @@ export const Board = sequelize.define('Board',  {
     BoardId:{
         type:DataTypes.INTEGER,
         allowNull:false,
-        primaryKey: true,
+        primaryKey:true,
+        unique: true
     },
     TopicId:{
         type:DataTypes.INTEGER,
         allowNull:false,
         primaryKey: true,
-        references:{
-            mode:Topic
+        references:{  
+            model:'Topic',
+            key:'TopicId'
         }
     },
     commentCount:{
         type:DataTypes.INTEGER
     }
+}, 
+{
+    freezeTableName: true,
 });
 
 
@@ -54,6 +63,9 @@ export const User = sequelize.define('User', {
         type:DataTypes.STRING,
         allowNull:false
     }
+}, 
+{
+    freezeTableName: true,
 });
 
 export const Comment = sequelize.define('Comment', {
@@ -65,21 +77,25 @@ export const Comment = sequelize.define('Comment', {
         type:DataTypes.INTEGER,
         allowNull:false,
         references:{
-            model:Topic
+            model:"Topic",
+            key:"TopicId"
         }
     },
     BoardId:{
         type:DataTypes.INTEGER,
         allowNull:false,
+        unique: true,
         references:{
-            model:Board
+            model:'Board',
+            key:'BoardId'
         }
     },
     UserId:{
         type:DataTypes.INTEGER,
         allowNull:false,
         references: {
-            model:User
+            model:'User',
+            key:'UserId'
         }
     },
     like: {
@@ -88,12 +104,17 @@ export const Comment = sequelize.define('Comment', {
     dislike:{
         type:DataTypes.INTEGER
     }
+}, 
+{
+    freezeTableName: true,
 });
 
 
 Topic.hasMany(Board);
 Board.belongsTo(Topic);
+
 Board.hasMany(Comment);
 Comment.belongsTo(Board);
+
 User.hasMany(Comment);
 Comment.belongsTo(User);
