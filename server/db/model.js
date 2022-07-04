@@ -25,7 +25,7 @@ export const Board = sequelize.define('Board',  {
         allowNull:false
     },
     BoardId:{
-        Type:DataTypes.INTEGER,
+        type:DataTypes.INTEGER,
         allowNull:false,
         primaryKey: true,
     },
