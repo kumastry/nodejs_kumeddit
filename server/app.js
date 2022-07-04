@@ -9,16 +9,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/topics', async (req, res) => {
-    const topics = data.topics;
+    const topics = Topic.findAll();
     if(!topics) {
         res.status(404).send("not founded");
     }
-    res.json({
-        topics:topics,
-        count:topics.length
-    });
-
-    
+    res.json(topics);
 });
 
 //データベースからPK = :topicIdのBoardを抜き出す
@@ -46,6 +41,7 @@ app.get('/topics/:topicId/boards', async (req, res) => {
     );
 });
 
+//topicIdとboardIdが等しいBoard(掲示板)を抜き出す
 app.get('/topics/:topicId/boards/:boardId', async(req, res) => {
     const topicId = +req.params.topicId;
     const boardId = +req.params.boardId;
@@ -57,7 +53,7 @@ app.get('/topics/:topicId/boards/:boardId', async(req, res) => {
         where: {
         [Or.and] : [
             {BoardId : boardId},
-            {topicId : topicId}
+            {TopicId : topicId}
         ]
     }});
 
@@ -69,26 +65,42 @@ app.get('/topics/:topicId/boards/:boardId', async(req, res) => {
     res.json(board);
 });
 
+//topicIdとboardIdが等しいBoard(掲示板)のコメントを抜き出す
 app.get('/topics/:topicId/boards/:boardId/comments', async(req, res) => {
     const topicId = +req.params.topicId;
     const boardId = +req.params.boardId;
-    const comments = data.comments;
-    console.log(comments);
+    const comments = Comment.findAll({
+        attribute:['comment', 'like', 'dislike']
+    },
+    {
+        while: {
+            [Or.and] : [
+                {BoardId : boardId},
+                {TopicId : topicId}
+            ]
+        }
+    }
+    );
     if(!comments) {
         res.status(404).send("not founded");
     }
-    res.json(
-        comments.filter(element => element.topicId === topicId && element.boardId === boardId)
-    );
+    res.json(comments);
 });
 
+//topicIdに掲示板を投稿する
+//掲示板の作成には掲示板のタイトルとユーザー名が必要
+//Boardテーブルに追加
 app.post('/topics/:topicId/boards', async (req, res) => {
+    const title = req.body.titie;
+    const user = req.body.title;
 
 });
 
+//topicIdとboardIdにコメントを投稿する
+//コメント投稿にはコメントとユーザー名が必要
 app.post('/topics/:topicId/boards/:boardId/comments', async(req, res) => {
- 
+
 });
 
 
-app.listen(5000, () => console.log("f"));
+app.listen(5000, () => console.log("open"));

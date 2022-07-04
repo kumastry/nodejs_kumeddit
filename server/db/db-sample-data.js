@@ -1,0 +1,120 @@
+export const topics = [
+    {
+        TopicId:1,
+        title:"math",
+        boardCount:2  
+    }
+    ,
+    {
+        TopicId:2,
+        title:"science",
+        boardCount:2
+    }
+]
+
+export const boards = [
+    {
+        title:"algabra",
+        BoardId:1,
+        TopicId:1,
+        commentCount:2
+    }
+    ,    
+    {
+        title:"line",
+        BoardId:2,
+        TopicId:1,
+        commentCount:2
+    },
+    {
+        title:"algorithm",
+        BoardId:1,
+        TopicId:2,
+        commentCount:2
+    },
+    {
+        title:"physics",
+        BoardId:2,
+        TopicId:2,
+        commentCount:2
+    }
+]
+
+export const users = [
+    {
+        UserId:1,
+        name:"octane"
+    },
+    {
+        UserId:2,
+        name:"lord"
+    }
+]
+
+export const comments = [
+    {
+        comment:"fuck1",
+        TopicId:1,
+        BoardId:1,
+        UserId:1,
+        like:0,
+        dislike:0
+    },
+    {
+        comment:"fuck2",
+        TopicId:1,
+        BoardId:2,
+        UserId:1,
+        like:0,
+        dislike:0
+    },  
+    {
+        comment:"fuck3",
+        TopicId:2,
+        BoardId:1,
+        UserId:1,
+        like:0,
+        dislike:0
+    },   
+    {
+        comment:"fuck4",
+        TopicId:2,
+        BoardId:2,
+        UserId:1,
+        like:0,
+        dislike:0
+    },   
+    {
+        comment:"fuck5",
+        TopicId:1,
+        BoardId:1,
+        UserId:2,
+        like:0,
+        dislike:0
+    },
+    {
+        comment:"fuck6",
+        TopicId:1,
+        BoardId:2,
+        UserId:2,
+        like:0,
+        dislike:0
+    },
+    {
+        comment:"fuck7",
+        TopicId:2,
+        BoardId:1,
+        UserId:2,
+        like:0,
+        dislike:0
+    },
+    {
+        comment:"fuck8",
+        TopicId:2,
+        BoardId:2,
+        UserId:2,
+        like:0,
+        dislike:0
+    }
+]
+

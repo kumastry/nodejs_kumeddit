@@ -5,11 +5,15 @@ export const sequelize = new Sequelize(url);
 const {DataTypes} = Sequelize;
 
 export const Topic = sequelize.define('Topic', {
+    TopicId:{
+        type:DataTypes.INTEGER,
+        primaryKey:true
+    },
     title:{
         type: DataTypes.STRING,
         allowNull:false
     },
-    boardCount:{
+    BoardCount:{
         type:DataTypes.INTEGER
     }
 });
@@ -25,7 +29,7 @@ export const Board = sequelize.define('Board',  {
         allowNull:false,
         primaryKey: true,
     },
-    topicId:{
+    TopicId:{
         type:DataTypes.INTEGER,
         allowNull:false,
         primaryKey: true,
@@ -39,9 +43,10 @@ export const Board = sequelize.define('Board',  {
 });
 
 
+//UserIdはUUID
 export const User = sequelize.define('User', {
     UserId:{
-        type:DataTypes.UUID,
+        type:DataTypes.INTEGER,
         primaryKey:true
     }
     ,
@@ -56,7 +61,7 @@ export const Comment = sequelize.define('Comment', {
         type:DataTypes.TEXT,
         allowNull:false
     },
-    topicId:{
+    TopicId:{
         type:DataTypes.INTEGER,
         allowNull:false,
         references:{
@@ -71,16 +76,16 @@ export const Comment = sequelize.define('Comment', {
         }
     },
     UserId:{
-        type:DataTypes.UUID,
+        type:DataTypes.INTEGER,
         allowNull:false,
         references: {
             model:User
         }
     },
-    likes: {
+    like: {
         type:DataTypes.INTEGER,
     },
-    dislikes:{
+    dislike:{
         type:DataTypes.INTEGER
     }
 });
